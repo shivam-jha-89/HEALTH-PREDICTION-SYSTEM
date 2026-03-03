@@ -1,0 +1,3979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Prediction System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --primary-dark: #2E5C8A;
+            --primary-light: #7BB3F0;
+            --secondary: #50C878;
+            --secondary-dark: #359453;
+            --secondary-light: #7FD8A0;
+            --danger: #E74C3C;
+            --danger-dark: #C0392B;
+            --danger-light: #F57C6C;
+            --warning: #F39C12;
+            --warning-dark: #D68910;
+            --warning-light: #F5B041;
+            --dark: #2C3E50;
+            --dark-light: #34495E;
+            --light: #ECF0F1;
+            --light-dark: #BDC3C7;
+            --white: #FFFFFF;
+            --purple: #9B59B6;
+            --purple-dark: #7D3C98;
+            --purple-light: #BB8FCE;
+            --teal: #1ABC9C;
+            --teal-dark: #148F77;
+            --teal-light: #48C9B0;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8F9FA;
+            --bg-tertiary: #F1F3F4;
+            --text-primary: #2C3E50;
+            --text-secondary: #6C757D;
+            --text-light: #FFFFFF;
+            --card-bg: #FFFFFF;
+            --border-color: #E1E4E8;
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.08);
+            --shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.15);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-success: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-danger: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-warning: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            --gradient-info: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-dark: linear-gradient(135deg, #3D3D3D 0%, #1A1A1A 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            --gradient-shimmer: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        }
+
+        [data-theme="dark"] {
+            --primary: #5DA3F5;
+            --primary-dark: #3A7BC8;
+            --primary-light: #8AB9F7;
+            --secondary: #6DD896;
+            --secondary-dark: #45B569;
+            --secondary-light: #8FE5AB;
+            --danger: #F55C4C;
+            --danger-dark: #D64545;
+            --danger-light: #F77B6B;
+            --warning: #F5B041;
+            --warning-dark: #D68910;
+            --warning-light: #F7C659;
+            --dark: #ECF0F1;
+            --dark-light: #BDC3C7;
+            --light: #2C3E50;
+            --light-dark: #34495E;
+            --white: #1A1A1A;
+            --purple: #A569BD;
+            --purple-dark: #8E44AD;
+            --purple-light: #BB8FCE;
+            --teal: #2ECC71;
+            --teal-dark: #27AE60;
+            --teal-light: #58D68D;
+            --bg-primary: #1A1A1A;
+            --bg-secondary: #2D2D2D;
+            --bg-tertiary: #3D3D3D;
+            --text-primary: #ECF0F1;
+            --text-secondary: #CCCCCC;
+            --text-light: #1A1A1A;
+            --card-bg: #2D2D2D;
+            --border-color: #444444;
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.3);
+            --shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.4);
+            --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --gradient-primary: linear-gradient(135deg, #3D3D3D 0%, #1A1A1A 100%);
+            --gradient-secondary: linear-gradient(135deg, #434343 0%, #000000 100%);
+            --gradient-success: linear-gradient(135deg, #134E5E 0%, #71B280 100%);
+            --gradient-danger: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+            --gradient-warning: linear-gradient(135deg, #F2994A 0%, #F2C94C 100%);
+            --gradient-info: linear-gradient(135deg, #89F7FE 0%, #66A6FF 100%);
+            --gradient-dark: linear-gradient(135deg, #1A1A1A 0%, #000000 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            --gradient-shimmer: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--gradient-primary);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100%" height="100%" fill="none"/><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="20" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: 100px 100px;
+            z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--bg-primary);
+            border-radius: 30px;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            z-index: 1;
+        }
+
+        header {
+            background: var(--gradient-primary);
+            color: var(--text-light);
+            padding: 50px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="100%" height="100%" fill="none"/><path d="M0,100 Q50,50 100,100 T200,100" stroke="rgba(255,255,255,0.1)" stroke-width="1" fill="none"/><path d="M0,50 Q50,0 100,50 T200,50" stroke="rgba(255,255,255,0.1)" stroke-width="1" fill="none"/><path d="M0,150 Q50,100 100,150 T200,150" stroke="rgba(255,255,255,0.1)" stroke-width="1" fill="none"/></svg>');
+            background-size: 200px 200px;
+            opacity: 0.5;
+            animation: wave 15s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { background-position: 0 0; }
+            100% { background-position: 200px 0; }
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gradient-glass);
+            border-radius: 50px;
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .theme-toggle i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover i {
+            transform: rotate(20deg);
+        }
+
+        header h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            letter-spacing: -0.5px;
+            position: relative;
+            z-index: 1;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+            to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+        }
+
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            background: var(--gradient-glass);
+            border-radius: 20px;
+            margin-top: 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .tab {
+            padding: 20px 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            min-width: 120px;
+            color: var(--text-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .tab::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .tab:hover::after {
+            opacity: 0.5;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            background: var(--bg-primary);
+        }
+
+        .tab.active::before {
+            transform: translateX(0);
+        }
+
+        .tab i {
+            margin-right: 10px;
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .tab:hover i {
+            transform: scale(1.1);
+        }
+
+        .content {
+            padding: 50px 30px;
+            background: var(--bg-primary);
+            min-height: 500px;
+            position: relative;
+        }
+
+        .content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(15px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .symptoms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .symptom-card {
+            padding: 25px;
+            border-radius: 20px;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-align: center;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .symptom-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .symptom-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .symptom-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .symptom-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .symptom-card:hover::after {
+            opacity: 0.3;
+        }
+
+        .symptom-card.selected {
+            background: var(--gradient-primary);
+            color: var(--text-light);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+        }
+
+        .symptom-card.selected::before {
+            transform: scaleX(1);
+            background: var(--gradient-secondary);
+        }
+
+        .symptom-card.selected::after {
+            opacity: 0.2;
+        }
+
+        .symptom-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            transition: all 0.4s ease;
+        }
+
+        .symptom-card.selected i {
+            color: var(--text-light);
+            transform: scale(1.15);
+        }
+
+        .symptom-card div {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            padding: 16px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-shimmer);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            transform: translateX(0);
+        }
+
+        .btn:hover::after {
+            transform: translateX(100%);
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--text-light);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.5);
+        }
+
+        .btn-success {
+            background: var(--gradient-success);
+            color: var(--text-light);
+            box-shadow: 0 4px 15px rgba(80, 200, 120, 0.4);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(80, 200, 120, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 35px;
+            margin-top: 50px;
+            box-shadow: var(--shadow-xl);
+            display: none;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-primary);
+        }
+
+        .result-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .result-card.show {
+            display: block;
+            animation: slideIn 0.6s ease;
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .result-header i {
+            font-size: 3rem;
+            margin-right: 25px;
+            color: var(--danger);
+            background: var(--gradient-danger);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 4px rgba(231, 76, 60, 0.3));
+        }
+
+        .result-header h2 {
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .result-section {
+            margin-bottom: 35px;
+        }
+
+        .result-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .result-section h3 i {
+            margin-right: 15px;
+            font-size: 1.4rem;
+        }
+
+        .medicine-list, .diet-list, .precaution-list {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .medicine-list::before, .diet-list::before, .precaution-list::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-primary);
+        }
+
+        .medicine-item, .diet-item, .precaution-item {
+            padding: 18px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .medicine-item:hover, .diet-item:hover, .precaution-item:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--primary);
+        }
+
+        .medicine-item i, .diet-item i, .precaution-item i {
+            margin-right: 18px;
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .confidence-meter {
+            display: flex;
+            align-items: center;
+            margin-top: 25px;
+        }
+
+        .confidence-bar {
+            flex: 1;
+            height: 28px;
+            background: var(--bg-tertiary);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 0 20px;
+            position: relative;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .confidence-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0.2;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            width: 0%;
+            transition: width 1.8s ease;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+        }
+
+        .confidence-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-shimmer);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .workout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .workout-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .workout-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .workout-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .workout-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .workout-img {
+            height: 170px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: var(--text-light);
+            position: relative;
+            z-index: 1;
+        }
+
+        .workout-content {
+            padding: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .workout-content h4 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .workout-content p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: var(--dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 35px;
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-primary);
+        }
+
+        .footer .social-icons {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer .social-icons a {
+            color: var(--text-light);
+            font-size: 2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .footer .social-icons a:hover {
+            color: var(--primary);
+            transform: translateY(-8px) rotate(5deg);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid var(--bg-tertiary);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 25px;
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            font-size: 1rem;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.2);
+        }
+
+        .bmi-result {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 35px;
+            margin-top: 40px;
+            box-shadow: var(--shadow-xl);
+            display: none;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .bmi-result::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-success);
+        }
+
+        .bmi-result::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .bmi-result.show {
+            display: block;
+            animation: slideIn 0.6s ease;
+        }
+
+        .bmi-value {
+            font-size: 3.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--text-primary);
+            background: var(--gradient-success);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 4px rgba(67, 233, 123, 0.3));
+        }
+
+        .bmi-category {
+            text-align: center;
+            font-size: 1.7rem;
+            margin-bottom: 25px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .bmi-indicator {
+            height: 35px;
+            background: linear-gradient(to right, #3498db, #2ecc71, #f1c40f, #e67e22, #e74c3c);
+            border-radius: 20px;
+            position: relative;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .bmi-indicator::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+        }
+
+        .bmi-pointer {
+            position: absolute;
+            top: -12px;
+            width: 12px;
+            height: 60px;
+            background: var(--dark);
+            border-radius: 6px;
+            transform: translateX(-50%);
+            box-shadow: var(--shadow);
+            transition: left 1.5s ease;
+        }
+
+        .risk-factors {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .risk-factor {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .risk-factor::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--gradient-primary);
+        }
+
+        .risk-factor::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .risk-factor:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .risk-factor h4 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .risk-factor h4 i {
+            margin-right: 15px;
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .risk-slider {
+            width: 100%;
+            margin: 20px 0;
+            -webkit-appearance: none;
+            height: 10px;
+            border-radius: 10px;
+            background: var(--bg-tertiary);
+            outline: none;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .risk-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .risk-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+        }
+
+        .risk-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            border: none;
+        }
+
+        .severity-tracker {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .severity-item {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .severity-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .severity-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .severity-item h4 {
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .severity-options {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .severity-option {
+            padding: 12px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            flex: 1;
+            font-weight: 600;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 2px solid transparent;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .severity-option:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .severity-option.selected {
+            color: var(--text-light);
+            border-color: var(--primary-light);
+        }
+
+        .severity-option.low {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--secondary);
+        }
+
+        .severity-option.low.selected {
+            background: var(--gradient-success);
+            color: var(--text-light);
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .severity-option.medium {
+            background: rgba(241, 196, 15, 0.1);
+            color: var(--warning);
+        }
+
+        .severity-option.medium.selected {
+            background: var(--gradient-warning);
+            color: var(--text-light);
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
+        }
+
+        .severity-option.high {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+        }
+
+        .severity-option.high.selected {
+            background: var(--gradient-danger);
+            color: var(--text-light);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .appointment-form {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .appointment-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-primary);
+        }
+
+        .appointment-form::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .time-slot {
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .time-slot:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .time-slot.selected {
+            background: var(--gradient-primary);
+            color: var(--text-light);
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .reminder-list {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .reminder-list::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-warning);
+        }
+
+        .reminder-list::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .reminder-item {
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            border-radius: 18px;
+            margin-bottom: 18px;
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .reminder-item:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--warning);
+        }
+
+        .reminder-item i {
+            font-size: 1.8rem;
+            margin-right: 20px;
+            color: var(--warning);
+        }
+
+        .reminder-details {
+            flex: 1;
+        }
+
+        .reminder-time {
+            font-weight: bold;
+            color: var(--warning);
+        }
+
+        .add-reminder {
+            display: flex;
+            margin-top: 30px;
+            gap: 18px;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 35px;
+        }
+
+        .article-card {
+            background: var(--card-bg);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .article-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .article-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .article-img {
+            height: 190px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: var(--text-light);
+            position: relative;
+            z-index: 1;
+        }
+
+        .article-content {
+            padding: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .article-content h4 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .article-content p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .read-more {
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: var(--primary-dark);
+        }
+
+        .read-more i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .read-more:hover i {
+            transform: translateX(5px);
+        }
+
+        .emergency-contacts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 35px;
+        }
+
+        .emergency-contact {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .emergency-contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--gradient-danger);
+        }
+
+        .emergency-contact::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .emergency-contact:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .emergency-contact i {
+            font-size: 2.5rem;
+            margin-right: 20px;
+            color: var(--danger);
+            filter: drop-shadow(0 2px 4px rgba(231, 76, 60, 0.3));
+        }
+
+        .emergency-details h4 {
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .emergency-details p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .tips-carousel {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: var(--shadow-xl);
+            margin-top: 35px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .tips-carousel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-info);
+        }
+
+        .tips-carousel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .tip-item {
+            display: none;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .tip-item.active {
+            display: block;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .tip-item i {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            background: var(--gradient-info);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 4px rgba(79, 172, 254, 0.3));
+        }
+
+        .tip-item h3 {
+            margin-bottom: 18px;
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .carousel-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--gradient-info);
+            color: var(--text-light);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.3rem;
+            box-shadow: var(--shadow);
+        }
+
+        .carousel-btn:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .symptom-history {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: var(--shadow-xl);
+            margin-top: 35px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .symptom-history::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-secondary);
+        }
+
+        .symptom-history::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-glass);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .history-item {
+            padding: 25px;
+            border-radius: 18px;
+            margin-bottom: 18px;
+            background: var(--bg-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .history-item:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--primary);
+        }
+
+        .history-date {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .history-symptoms {
+            flex: 1;
+            margin: 0 25px;
+            color: var(--text-secondary);
+        }
+
+        .history-result {
+            font-weight: bold;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: var(--card-bg);
+            padding: 25px 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-xl);
+            display: none;
+            align-items: center;
+            z-index: 1000;
+            border-left: 6px solid var(--primary);
+            max-width: 380px;
+            animation: slideInRight 0.5s ease;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .notification.show {
+            display: flex;
+        }
+
+        @keyframes slideInRight {
+            from { 
+                opacity: 0; 
+                transform: translateX(120px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(0); 
+            }
+        }
+
+        .notification i {
+            font-size: 2rem;
+            margin-right: 20px;
+            color: var(--primary);
+        }
+
+        .notification-close {
+            margin-left: 20px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            transition: color 0.3s ease;
+        }
+
+        .notification-close:hover {
+            color: var(--danger);
+        }
+
+        /* Profile Photo Styles */
+        .profile-photo-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: var(--primary);
+            box-shadow: var(--shadow-xl);
+            border: 6px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .profile-photo-container:hover {
+            transform: scale(1.03);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .profile-photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .profile-photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        .profile-photo-container:hover .profile-photo-overlay {
+            opacity: 1;
+        }
+
+        .profile-photo-overlay i {
+            color: var(--text-light);
+            font-size: 3rem;
+        }
+
+        .profile-photo-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+            gap: 18px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .photo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .photo-modal.show {
+            display: flex;
+        }
+
+        .photo-modal-content {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 35px;
+            max-width: 550px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            animation: modalFadeIn 0.4s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .photo-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .photo-modal-header h3 {
+            color: var(--text-primary);
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .photo-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .photo-modal-close:hover {
+            color: var(--danger);
+        }
+
+        .photo-preview {
+            width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .photo-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .photo-option {
+            flex: 1;
+            min-width: 130px;
+            padding: 18px;
+            border-radius: 15px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-primary);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .photo-option:hover {
+            border-color: var(--primary);
+            background: var(--bg-secondary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .photo-option i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+            color: var(--primary);
+        }
+
+        /* Feedback Button Styles */
+        .feedback-button {
+            position: fixed;
+            bottom: 35px;
+            right: 35px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-xl);
+            transition: all 0.3s ease;
+            z-index: 100;
+            border: 4px solid var(--bg-primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(74, 144, 226, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(74, 144, 226, 0); }
+        }
+
+        .feedback-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: none;
+        }
+
+        .feedback-button:active {
+            transform: scale(0.95);
+        }
+
+        .feedback-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .feedback-modal.show {
+            display: flex;
+        }
+
+        .feedback-modal-content {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 550px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: modalFadeIn 0.4s ease;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        .feedback-modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-primary);
+            border-radius: 25px 25px 0 0;
+        }
+
+        .feedback-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .feedback-modal-header h3 {
+            color: var(--text-primary);
+            font-size: 1.7rem;
+            font-weight: 600;
+        }
+
+        .feedback-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .feedback-modal-close:hover {
+            color: var(--danger);
+        }
+
+        .feedback-type {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .feedback-type-option {
+            padding: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feedback-type-option:hover {
+            border-color: var(--primary);
+            background: var(--bg-secondary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .feedback-type-option.selected {
+            border-color: var(--primary);
+            background: var(--bg-secondary);
+            color: var(--primary);
+        }
+
+        .feedback-type-option i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+            color: var(--primary);
+        }
+
+        .rating-container {
+            margin-bottom: 30px;
+        }
+
+        .rating-container label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .rating {
+            display: flex;
+            gap: 10px;
+            font-size: 2.2rem;
+        }
+
+        .rating i {
+            color: var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .rating i:hover,
+        .rating i.active {
+            color: var(--warning);
+            transform: scale(1.1);
+        }
+
+        .feedback-textarea {
+            width: 100%;
+            min-height: 130px;
+            padding: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            resize: vertical;
+            transition: border-color 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .feedback-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.2);
+        }
+
+        .feedback-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 18px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .symptoms-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .user-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .photo-options {
+                flex-direction: column;
+            }
+            
+            .feedback-type {
+                grid-template-columns: 1fr;
+            }
+            
+            .feedback-button {
+                bottom: 25px;
+                right: 25px;
+                width: 60px;
+                height: 60px;
+                font-size: 1.6rem;
+            }
+
+            .container {
+                border-radius: 20px;
+            }
+
+            header {
+                padding: 40px 20px;
+            }
+
+            .content {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon" id="theme-icon"></i>
+                <span id="theme-text">Dark Mode</span>
+            </div>
+            <h1><i class="fas fa-heartbeat"></i> Health Prediction System</h1>
+            <p>Identify diseases based on your symptoms with our advanced AI-powered prediction system</p>
+            
+            <div class="user-info">
+                <div class="user-profile">
+                    <div class="user-avatar" id="header-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div id="user-name">Guest User</div>
+                        <div id="user-email">Not logged in</div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="showProfileTab()">
+                        <i class="fas fa-user-circle"></i> My Profile
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('symptoms')">
+                <i class="fas fa-stethoscope"></i> Symptoms
+            </div>
+            <div class="tab" onclick="switchTab('bmi')">
+                <i class="fas fa-calculator"></i> BMI
+            </div>
+            <div class="tab" onclick="switchTab('risk')">
+                <i class="fas fa-exclamation-triangle"></i> Risk Assessment
+            </div>
+            <div class="tab" onclick="switchTab('severity')">
+                <i class="fas fa-chart-line"></i> Symptom Severity
+            </div>
+            <div class="tab" onclick="switchTab('appointment')">
+                <i class="fas fa-calendar-check"></i> Appointment
+            </div>
+            <div class="tab" onclick="switchTab('medicine')">
+                <i class="fas fa-pills"></i> Medicines
+            </div>
+            <div class="tab" onclick="switchTab('reminder')">
+                <i class="fas fa-bell"></i> Reminders
+            </div>
+            <div class="tab" onclick="switchTab('articles')">
+                <i class="fas fa-newspaper"></i> Articles
+            </div>
+            <div class="tab" onclick="switchTab('emergency')">
+                <i class="fas fa-phone-alt"></i> Emergency
+            </div>
+            <div class="tab" onclick="switchTab('tips')">
+                <i class="fas fa-lightbulb"></i> Health Tips
+            </div>
+            <div class="tab" onclick="switchTab('history')">
+                <i class="fas fa-history"></i> History
+            </div>
+            <div class="tab" onclick="switchTab('profile')">
+                <i class="fas fa-user"></i> Profile
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="symptoms" class="tab-content active">
+                <h2><i class="fas fa-clipboard-list"></i> Select Your Symptoms</h2>
+                <p>Select the symptoms you are experiencing to get an accurate disease prediction</p>
+                
+                <div class="symptoms-grid">
+                    <div class="symptom-card" onclick="toggleSymptom(this, 'Fever')">
+                        <i class="fas fa-thermometer-half"></i>
+                        <div>Fever</div>
+                    </div>
+                    <div class="symptom-card" onclick="toggleSymptom(this, 'Cough')">
+                        <i class="fas fa-lungs"></i>
+                        <div>Cough</div>
+                    </div>
+                    <div class="symptom-card" onclick="toggleSymptom(this, 'Headache')">
+                        <i class="fas fa-head-side-virus"></i>
+                        <div>Headache</div>
+                    </div>
+                    <div class="symptom-card" onclick="toggleSymptom(this, 'Fatigue')">
+                        <i class="fas fa-tired"></i>
+                        <div>Fatigue</div>
+                    </div>
+                    <div class="symptom-card" onclick="toggleSymptom(this, 'Sore Throat')">
+                        <i class="fas fa-head-side-cough"></i>
+                        <div>Sore Throat</div>
+                    </div>
+                    <div class="symptom-card" onclick="toggleSymptom(this, 'Stomach Pain')">
+                        <i class="fas fa-stomach"></i>
+                        <div>Stomach Pain</div>
+                    </div>
+                    <div class="symptom-card" onclick="toggleSymptom(this, 'Nausea')">
+                        <i class="fas fa-nausea"></i>
+                        <div>Nausea</div>
+                    </div>
+                    <div class="symptom-card" onclick="toggleSymptom(this, 'Diarrhea')">
+                        <i class="fas fa-toilet-paper"></i>
+                        <div>Diarrhea</div>
+                    </div>
+                    <div class="symptom-card" onclick="toggleSymptom(this, 'Shortness of Breath')">
+                        <i class="fas fa-wind"></i>
+                        <div>Shortness of Breath</div>
+                    </div>
+                    <div class="symptom-card" onclick="toggleSymptom(this, 'Sneezing')">
+                        <i class="fas fa-head-side-mask"></i>
+                        <div>Sneezing</div>
+                    </div>
+                    <div class="symptom-card" onclick="toggleSymptom(this, 'Joint Pain')">
+                        <i class="fas fa-bone"></i>
+                        <div>Joint Pain</div>
+                    </div>
+                    <div class="symptom-card" onclick="toggleSymptom(this, 'Loss of Appetite')">
+                        <i class="fas fa-utensils"></i>
+                        <div>Loss of Appetite</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="predictDisease()">
+                    <i class="fas fa-search"></i> Predict Disease
+                </button>
+
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Analyzing your symptoms...</p>
+                </div>
+
+                <div id="result" class="result-card">
+                    <div class="result-header">
+                        <i class="fas fa-virus"></i>
+                        <h2 id="disease-name">Disease Name</h2>
+                    </div>
+                    
+                    <div class="confidence-meter">
+                        <span>Confidence:</span>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" id="confidence-fill"></div>
+                        </div>
+                        <span id="confidence-value">0%</span>
+                    </div>
+
+                    <div class="result-section">
+                        <h3><i class="fas fa-pills"></i> Suggested Medicines</h3>
+                        <div class="medicine-list" id="medicine-list">
+                            <!-- Medicine items will be added here -->
+                        </div>
+                    </div>
+
+                    <div class="result-section">
+                        <h3><i class="fas fa-apple-alt"></i> Diet Suggestions</h3>
+                        <div class="diet-list" id="diet-list">
+                            <!-- Diet items will be added here -->
+                        </div>
+                    </div>
+
+                    <div class="result-section">
+                        <h3><i class="fas fa-dumbbell"></i> Exercise Suggestions</h3>
+                        <div class="workout-grid" id="workout-grid">
+                            <!-- Workout cards will be added here -->
+                        </div>
+                    </div>
+
+                    <div class="result-section">
+                        <h3><i class="fas fa-shield-alt"></i> Precautions</h3>
+                        <div class="precaution-list" id="precaution-list">
+                            <!-- Precaution items will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="bmi" class="tab-content">
+                <h2><i class="fas fa-calculator"></i> BMI Calculator</h2>
+                <p>Calculate your Body Mass Index to assess your health status</p>
+                
+                <div class="form-group">
+                    <label for="height">Height (cm)</label>
+                    <input type="number" id="height" class="form-control" placeholder="Enter your height in cm">
+                </div>
+                
+                <div class="form-group">
+                    <label for="weight">Weight (kg)</label>
+                    <input type="number" id="weight" class="form-control" placeholder="Enter your weight in kg">
+                </div>
+                
+                <button class="btn btn-primary" onclick="calculateBMI()">
+                    <i class="fas fa-calculator"></i> Calculate BMI
+                </button>
+                
+                <div id="bmi-result" class="bmi-result">
+                    <div class="bmi-value" id="bmi-value">0</div>
+                    <div class="bmi-category" id="bmi-category">Category</div>
+                    <div class="bmi-indicator">
+                        <div class="bmi-pointer" id="bmi-pointer"></div>
+                    </div>
+                    <p id="bmi-description">BMI description will appear here</p>
+                </div>
+            </div>
+
+            <div id="risk" class="tab-content">
+                <h2><i class="fas fa-exclamation-triangle"></i> Health Risk Assessment</h2>
+                <p>Assess your health risks based on lifestyle factors</p>
+                
+                <div class="risk-factors">
+                    <div class="risk-factor">
+                        <h4><i class="fas fa-smoking"></i> Smoking</h4>
+                        <input type="range" class="risk-slider" id="smoking-risk" min="0" max="10" value="0">
+                        <div class="risk-value" id="smoking-value">0</div>
+                    </div>
+                    
+                    <div class="risk-factor">
+                        <h4><i class="fas fa-wine-glass"></i> Alcohol</h4>
+                        <input type="range" class="risk-slider" id="alcohol-risk" min="0" max="10" value="0">
+                        <div class="risk-value" id="alcohol-value">0</div>
+                    </div>
+                    
+                    <div class="risk-factor">
+                        <h4><i class="fas fa-running"></i> Physical Activity</h4>
+                        <input type="range" class="risk-slider" id="activity-risk" min="0" max="10" value="5">
+                        <div class="risk-value" id="activity-value">5</div>
+                    </div>
+                    
+                    <div class="risk-factor">
+                        <h4><i class="fas fa-hamburger"></i> Diet Quality</h4>
+                        <input type="range" class="risk-slider" id="diet-risk" min="0" max="10" value="5">
+                        <div class="risk-value" id="diet-value">5</div>
+                    </div>
+                    
+                    <div class="risk-factor">
+                        <h4><i class="fas fa-bed"></i> Sleep</h4>
+                        <input type="range" class="risk-slider" id="sleep-risk" min="0" max="10" value="5">
+                        <div class="risk-value" id="sleep-value">5</div>
+                    </div>
+                    
+                    <div class="risk-factor">
+                        <h4><i class="fas fa-brain"></i> Stress</h4>
+                        <input type="range" class="risk-slider" id="stress-risk" min="0" max="10" value="5">
+                        <div class="risk-value" id="stress-value">5</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="calculateRisk()">
+                    <i class="fas fa-chart-pie"></i> Calculate Risk
+                </button>
+                
+                <div id="risk-result" class="result-card">
+                    <div class="result-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h2 id="risk-level">Risk Level</h2>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h3>Risk Breakdown</h3>
+                        <div id="risk-breakdown">
+                            <!-- Risk breakdown will be added here -->
+                        </div>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h3>Recommendations</h3>
+                        <div id="risk-recommendations">
+                            <!-- Risk recommendations will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="severity" class="tab-content">
+                <h2><i class="fas fa-chart-line"></i> Symptom Severity Tracker</h2>
+                <p>Track the severity of your symptoms over time</p>
+                
+                <div class="severity-tracker">
+                    <div class="severity-item">
+                        <h4>Fever</h4>
+                        <div class="severity-options">
+                            <div class="severity-option low" onclick="setSeverity('fever', 'low')">Low</div>
+                            <div class="severity-option medium" onclick="setSeverity('fever', 'medium')">Medium</div>
+                            <div class="severity-option high" onclick="setSeverity('fever', 'high')">High</div>
+                        </div>
+                    </div>
+                    
+                    <div class="severity-item">
+                        <h4>Cough</h4>
+                        <div class="severity-options">
+                            <div class="severity-option low" onclick="setSeverity('cough', 'low')">Low</div>
+                            <div class="severity-option medium" onclick="setSeverity('cough', 'medium')">Medium</div>
+                            <div class="severity-option high" onclick="setSeverity('cough', 'high')">High</div>
+                        </div>
+                    </div>
+                    
+                    <div class="severity-item">
+                        <h4>Headache</h4>
+                        <div class="severity-options">
+                            <div class="severity-option low" onclick="setSeverity('headache', 'low')">Low</div>
+                            <div class="severity-option medium" onclick="setSeverity('headache', 'medium')">Medium</div>
+                            <div class="severity-option high" onclick="setSeverity('headache', 'high')">High</div>
+                        </div>
+                    </div>
+                    
+                    <div class="severity-item">
+                        <h4>Fatigue</h4>
+                        <div class="severity-options">
+                            <div class="severity-option low" onclick="setSeverity('fatigue', 'low')">Low</div>
+                            <div class="severity-option medium" onclick="setSeverity('fatigue', 'medium')">Medium</div>
+                            <div class="severity-option high" onclick="setSeverity('fatigue', 'high')">High</div>
+                        </div>
+                    </div>
+                    
+                    <div class="severity-item">
+                        <h4>Nausea</h4>
+                        <div class="severity-options">
+                            <div class="severity-option low" onclick="setSeverity('nausea', 'low')">Low</div>
+                            <div class="severity-option medium" onclick="setSeverity('nausea', 'medium')">Medium</div>
+                            <div class="severity-option high" onclick="setSeverity('nausea', 'high')">High</div>
+                        </div>
+                    </div>
+                    
+                    <div class="severity-item">
+                        <h4>Joint Pain</h4>
+                        <div class="severity-options">
+                            <div class="severity-option low" onclick="setSeverity('joint-pain', 'low')">Low</div>
+                            <div class="severity-option medium" onclick="setSeverity('joint-pain', 'medium')">Medium</div>
+                            <div class="severity-option high" onclick="setSeverity('joint-pain', 'high')">High</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveSeverity()">
+                    <i class="fas fa-save"></i> Save Severity Data
+                </button>
+                
+                <div id="severity-chart" class="result-card">
+                    <h3>Symptom Severity Chart</h3>
+                    <canvas id="severity-canvas" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <div id="appointment" class="tab-content">
+                <h2><i class="fas fa-calendar-check"></i> Book Doctor Appointment</h2>
+                <p>Schedule an appointment with a doctor</p>
+                
+                <div class="appointment-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="doctor-name">Doctor Name</label>
+                            <select id="doctor-name" class="form-control">
+                                <option>Dr. John Smith - General Physician</option>
+                                <option>Dr. Sarah Johnson - Cardiologist</option>
+                                <option>Dr. Michael Brown - Neurologist</option>
+                                <option>Dr. Emily Davis - Pediatrician</option>
+                                <option>Dr. Robert Wilson - Orthopedic</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="appointment-date">Date</label>
+                            <input type="date" id="appointment-date" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Available Time Slots</label>
+                        <div class="time-slots">
+                            <div class="time-slot" onclick="selectTimeSlot(this)">9:00 AM</div>
+                            <div class="time-slot" onclick="selectTimeSlot(this)">10:00 AM</div>
+                            <div class="time-slot" onclick="selectTimeSlot(this)">11:00 AM</div>
+                            <div class="time-slot" onclick="selectTimeSlot(this)">12:00 PM</div>
+                            <div class="time-slot" onclick="selectTimeSlot(this)">2:00 PM</div>
+                            <div class="time-slot" onclick="selectTimeSlot(this)">3:00 PM</div>
+                            <div class="time-slot" onclick="selectTimeSlot(this)">4:00 PM</div>
+                            <div class="time-slot" onclick="selectTimeSlot(this)">5:00 PM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appointment-reason">Reason for Visit</label>
+                        <textarea id="appointment-reason" class="form-control" rows="4" placeholder="Describe your symptoms or reason for visit"></textarea>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="bookAppointment()">
+                        <i class="fas fa-calendar-plus"></i> Book Appointment
+                    </button>
+                </div>
+                
+                <div id="appointment-confirmation" class="result-card">
+                    <div class="result-header">
+                        <i class="fas fa-check-circle"></i>
+                        <h2>Appointment Confirmed</h2>
+                    </div>
+                    
+                    <div class="result-section">
+                        <p>Your appointment has been successfully booked.</p>
+                        <p>Doctor: <strong id="confirmed-doctor">Doctor Name</strong></p>
+                        <p>Date: <strong id="confirmed-date">Date</strong></p>
+                        <p>Time: <strong id="confirmed-time">Time</strong></p>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="addToCalendar()">
+                        <i class="fas fa-calendar-alt"></i> Add to Calendar
+                    </button>
+                </div>
+            </div>
+
+            <div id="medicine" class="tab-content">
+                <h2><i class="fas fa-pills"></i> Medicine Information</h2>
+                <p>Information about medicines for various diseases</p>
+                
+                <div class="medicine-list">
+                    <div class="medicine-item">
+                        <i class="fas fa-tablets"></i>
+                        <div>
+                            <strong>Paracetamol:</strong> For fever and headache
+                        </div>
+                    </div>
+                    <div class="medicine-item">
+                        <i class="fas fa-capsules"></i>
+                        <div>
+                            <strong>Azithromycin:</strong> For bacterial infections
+                        </div>
+                    </div>
+                    <div class="medicine-item">
+                        <i class="fas fa-prescription-bottle"></i>
+                        <div>
+                            <strong>Dextromethorphan:</strong> For cough
+                        </div>
+                    </div>
+                    <div class="medicine-item">
+                        <i class="fas fa-syringe"></i>
+                        <div>
+                            <strong>Ibuprofen:</strong> For pain and inflammation
+                        </div>
+                    </div>
+                    <div class="medicine-item">
+                        <i class="fas fa-pills"></i>
+                        <div>
+                            <strong>Omeprazole:</strong> For stomach pain and acidity
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 25px; color: var(--danger); font-weight: 600;">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    Note: Consult a doctor before taking any medicine.
+                </p>
+            </div>
+
+            <div id="reminder" class="tab-content">
+                <h2><i class="fas fa-bell"></i> Medicine Reminders</h2>
+                <p>Set reminders for your medicines</p>
+                
+                <div class="reminder-list">
+                    <div class="reminder-item">
+                        <i class="fas fa-pills"></i>
+                        <div class="reminder-details">
+                            <div>Paracetamol</div>
+                            <div class="reminder-time">8:00 AM</div>
+                        </div>
+                        <button class="btn btn-success" onclick="editReminder(this)">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="reminder-item">
+                        <i class="fas fa-capsules"></i>
+                        <div class="reminder-details">
+                            <div>Vitamin D</div>
+                            <div class="reminder-time">12:00 PM</div>
+                        </div>
+                        <button class="btn btn-success" onclick="editReminder(this)">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="reminder-item">
+                        <i class="fas fa-prescription-bottle"></i>
+                        <div class="reminder-details">
+                            <div>Ibuprofen</div>
+                            <div class="reminder-time">6:00 PM</div>
+                        </div>
+                        <button class="btn btn-success" onclick="editReminder(this)">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="add-reminder">
+                    <input type="text" id="new-medicine" class="form-control" placeholder="Medicine name">
+                    <input type="time" id="new-time" class="form-control">
+                    <button class="btn btn-primary" onclick="addReminder()">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
+                </div>
+            </div>
+
+            <div id="articles" class="tab-content">
+                <h2><i class="fas fa-newspaper"></i> Health Articles</h2>
+                <p>Read the latest health articles and tips</p>
+                
+                <div class="articles-grid">
+                    <div class="article-card">
+                        <div class="article-img">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="article-content">
+                            <h4>Understanding Heart Health</h4>
+                            <p>Learn about the importance of cardiovascular health and how to maintain a healthy heart...</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card">
+                        <div class="article-img">
+                            <i class="fas fa-apple-alt"></i>
+                        </div>
+                        <div class="article-content">
+                            <h4>Nutrition Basics</h4>
+                            <p>Discover the fundamentals of good nutrition and how to create a balanced diet...</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card">
+                        <div class="article-img">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="article-content">
+                            <h4>Mental Wellness</h4>
+                            <p>Explore strategies for maintaining mental health and managing stress...</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card">
+                        <div class="article-img">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div class="article-content">
+                            <h4>Exercise for Beginners</h4>
+                            <p>Get started with exercise with this beginner's guide to physical activity...</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card">
+                        <div class="article-img">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <div class="article-content">
+                            <h4>The Science of Sleep</h4>
+                            <p>Understand the importance of quality sleep and how to improve your sleep habits...</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card">
+                        <div class="article-img">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="article-content">
+                            <h4>Immune System Boosters</h4>
+                            <p>Learn natural ways to strengthen your immune system and stay healthy...</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="emergency" class="tab-content">
+                <h2><i class="fas fa-phone-alt"></i> Emergency Contacts</h2>
+                <p>Important emergency numbers and contacts</p>
+                
+                <div class="emergency-contacts">
+                    <div class="emergency-contact">
+                        <i class="fas fa-ambulance"></i>
+                        <div class="emergency-details">
+                            <h4>Ambulance</h4>
+                            <p>108 / 102</p>
+                        </div>
+                    </div>
+                    
+                    <div class="emergency-contact">
+                        <i class="fas fa-hospital"></i>
+                        <div class="emergency-details">
+                            <h4>Emergency Room</h4>
+                            <p>+1 234 567 8900</p>
+                        </div>
+                    </div>
+                    
+                    <div class="emergency-contact">
+                        <i class="fas fa-user-md"></i>
+                        <div class="emergency-details">
+                            <h4>Doctor on Call</h4>
+                            <p>+1 234 567 8901</p>
+                        </div>
+                    </div>
+                    
+                    <div class="emergency-contact">
+                        <i class="fas fa-fire-extinguisher"></i>
+                        <div class="emergency-details">
+                            <h4>Fire Department</h4>
+                            <p>101</p>
+                        </div>
+                    </div>
+                    
+                    <div class="emergency-contact">
+                        <i class="fas fa-shield-alt"></i>
+                        <div class="emergency-details">
+                            <h4>Police</h4>
+                            <p>100</p>
+                        </div>
+                    </div>
+                    
+                    <div class="emergency-contact">
+                        <i class="fas fa-pills"></i>
+                        <div class="emergency-details">
+                            <h4>Poison Control</h4>
+                            <p>+1 234 567 8902</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 35px; padding: 30px; background: rgba(231, 76, 60, 0.1); border-radius: 20px;">
+                    <h3 style="color: var(--danger); margin-bottom: 18px;">
+                        <i class="fas fa-exclamation-triangle"></i> Emergency Instructions
+                    </h3>
+                    <ol style="padding-left: 25px; line-height: 1.9;">
+                        <li>Stay calm and assess the situation</li>
+                        <li>Call the appropriate emergency number</li>
+                        <li>Provide clear information about the location</li>
+                        <li>Describe the situation and any symptoms</li>
+                        <li>Follow the dispatcher's instructions</li>
+                        <li>Stay on the line until help arrives</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="tips" class="tab-content">
+                <h2><i class="fas fa-lightbulb"></i> Daily Health Tips</h2>
+                <p>Get daily health tips to improve your well-being</p>
+                
+                <div class="tips-carousel">
+                    <div class="tip-item active">
+                        <i class="fas fa-tint"></i>
+                        <h3>Stay Hydrated</h3>
+                        <p>Drink at least 8 glasses of water a day to keep your body hydrated and functioning properly.</p>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <i class="fas fa-walking"></i>
+                        <h3>Move More</h3>
+                        <p>Take a 10-minute walk after each meal to improve digestion and control blood sugar levels.</p>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <i class="fas fa-apple-alt"></i>
+                        <h3>Eat More Fruits</h3>
+                        <p>Include at least 2 servings of fruits in your daily diet for essential vitamins and fiber.</p>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <i class="fas fa-bed"></i>
+                        <h3>Get Enough Sleep</h3>
+                        <p>Aim for 7-9 hours of quality sleep each night to allow your body to repair and recharge.</p>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <i class="fas fa-brain"></i>
+                        <h3>Practice Mindfulness</h3>
+                        <p>Spend 10 minutes each day practicing meditation or deep breathing to reduce stress.</p>
+                    </div>
+                    
+                    <div class="carousel-controls">
+                        <button class="carousel-btn" onclick="previousTip()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="carousel-btn" onclick="nextTip()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 35px;">
+                    <h3>Personalized Health Tips</h3>
+                    <p>Based on your health profile, here are some personalized recommendations:</p>
+                    
+                    <div class="risk-factors" style="margin-top: 30px;">
+                        <div class="risk-factor">
+                            <h4><i class="fas fa-heart"></i> Heart Health</h4>
+                            <p>Include omega-3 rich foods like salmon and walnuts in your diet.</p>
+                        </div>
+                        
+                        <div class="risk-factor">
+                            <h4><i class="fas fa-bone"></i> Bone Strength</h4>
+                            <p>Ensure adequate calcium intake through dairy products and leafy greens.</p>
+                        </div>
+                        
+                        <div class="risk-factor">
+                            <h4><i class="fas fa-eye"></i> Eye Care</h4>
+                            <p>Follow the 20-20-20 rule: every 20 minutes, look at something 20 feet away for 20 seconds.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="history" class="tab-content">
+                <h2><i class="fas fa-history"></i> Symptom History</h2>
+                <p>Track your symptoms and disease predictions over time</p>
+                
+                <div class="symptom-history">
+                    <div class="history-item">
+                        <div class="history-date">June 15, 2023</div>
+                        <div class="history-symptoms">Fever, Cough, Headache</div>
+                        <div class="history-result">Common Cold</div>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div class="history-date">May 28, 2023</div>
+                        <div class="history-symptoms">Stomach Pain, Nausea</div>
+                        <div class="history-result">Food Poisoning</div>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div class="history-date">May 10, 2023</div>
+                        <div class="history-symptoms">Headache, Fatigue</div>
+                        <div class="history-result">Migraine</div>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div class="history-date">April 22, 2023</div>
+                        <div class="history-symptoms">Joint Pain, Fever</div>
+                        <div class="history-result">Dengue</div>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div class="history-date">April 5, 2023</div>
+                        <div class="history-symptoms">Sore Throat, Cough</div>
+                        <div class="history-result">Strep Throat</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 35px;">
+                    <h3>Symptom Patterns</h3>
+                    <p>Based on your history, we've identified these patterns:</p>
+                    
+                    <div class="risk-factors" style="margin-top: 30px;">
+                        <div class="risk-factor">
+                            <h4><i class="fas fa-calendar"></i> Seasonal</h4>
+                            <p>You experience more respiratory symptoms during seasonal changes.</p>
+                        </div>
+                        
+                        <div class="risk-factor">
+                            <h4><i class="fas fa-chart-line"></i> Recurring</h4>
+                            <p>Headaches are your most common recurring symptom.</p>
+                        </div>
+                        
+                        <div class="risk-factor">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Alert</h4>
+                            <p>Your joint pain symptoms have increased in frequency recently.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="profile" class="tab-content">
+                <h2><i class="fas fa-user"></i> User Profile</h2>
+                <p>Manage your personal health information</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 50px;">
+                    <div style="text-align: center;">
+                        <div class="profile-photo-container" id="profile-photo-container">
+                            <i class="fas fa-user" id="profile-photo-placeholder"></i>
+                            <img id="profile-photo-img" style="display: none;" alt="Profile Photo">
+                            <div class="profile-photo-overlay" onclick="openPhotoModal()">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        <div class="profile-photo-actions">
+                            <button class="btn btn-primary" onclick="openPhotoModal()">
+                                <i class="fas fa-camera"></i> Change Photo
+                            </button>
+                            <button class="btn btn-secondary" onclick="removePhoto()">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">First Name</label>
+                                <input type="text" id="first-name" class="form-control" value="John">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="last-name">Last Name</label>
+                                <input type="text" id="last-name" class="form-control" value="Doe">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" class="form-control" value="john.doe@example.com">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" class="form-control" value="+1 234 567 8900">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dob">Date of Birth</label>
+                                <input type="date" id="dob" class="form-control" value="1985-06-15">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <select id="gender" class="form-control">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="blood-type">Blood Type</label>
+                            <select id="blood-type" class="form-control">
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                                <option>O+</option>
+                                <option>O-</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="medical-conditions">Medical Conditions</label>
+                            <textarea id="medical-conditions" class="form-control" rows="3" placeholder="List any existing medical conditions">Hypertension, Allergies</textarea>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="saveProfile()">
+                            <i class="fas fa-save"></i> Save Profile
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 50px;">
+                    <h3>Health Summary</h3>
+                    <div class="risk-factors" style="margin-top: 30px;">
+                        <div class="risk-factor">
+                            <h4><i class="fas fa-heartbeat"></i> Heart Rate</h4>
+                            <p>72 bpm (Normal)</p>
+                        </div>
+                        
+                        <div class="risk-factor">
+                            <h4><i class="fas fa-tint"></i> Blood Pressure</h4>
+                            <p>120/80 mmHg (Normal)</p>
+                        </div>
+                        
+                        <div class="risk-factor">
+                            <h4><i class="fas fa-weight"></i> Weight</h4>
+                            <p>75 kg (Stable)</p>
+                        </div>
+                        
+                        <div class="risk-factor">
+                            <h4><i class="fas fa-ruler-vertical"></i> Height</h4>
+                            <p>175 cm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 Health Prediction System | Your Health, Our Priority</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div class="photo-modal" id="photo-modal">
+        <div class="photo-modal-content">
+            <div class="photo-modal-header">
+                <h3>Update Profile Photo</h3>
+                <button class="photo-modal-close" onclick="closePhotoModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <img id="photo-preview" class="photo-preview" src="" alt="Photo Preview" style="display: none;">
+            
+            <div class="photo-options">
+                <div class="photo-option" onclick="document.getElementById('photo-upload').click()">
+                    <i class="fas fa-upload"></i>
+                    <span>Upload Photo</span>
+                </div>
+                <div class="photo-option" onclick="takePhoto()">
+                    <i class="fas fa-camera"></i>
+                    <span>Take Photo</span>
+                </div>
+                <div class="photo-option" onclick="useDefaultAvatar()">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Default Avatar</span>
+                </div>
+            </div>
+            
+            <input type="file" id="photo-upload" class="file-input" accept="image/*" onchange="previewPhoto(event)">
+            
+            <div style="display: flex; justify-content: flex-end; gap: 18px; margin-top: 30px;">
+                <button class="btn btn-secondary" onclick="closePhotoModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="btn btn-primary" onclick="savePhoto()" id="save-photo-btn" disabled>
+                    <i class="fas fa-save"></i> Save Photo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="feedback-modal" id="feedback-modal">
+        <div class="feedback-modal-content">
+            <div class="feedback-modal-header">
+                <h3>Send Feedback</h3>
+                <button class="feedback-modal-close" onclick="closeFeedbackModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="feedback-type">
+                <div class="feedback-type-option selected" data-type="general" onclick="selectFeedbackType(this)">
+                    <i class="fas fa-comment"></i>
+                    <span>General</span>
+                </div>
+                <div class="feedback-type-option" data-type="bug" onclick="selectFeedbackType(this)">
+                    <i class="fas fa-bug"></i>
+                    <span>Bug Report</span>
+                </div>
+                <div class="feedback-type-option" data-type="feature" onclick="selectFeedbackType(this)">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Feature Request</span>
+                </div>
+            </div>
+            
+            <div class="rating-container">
+                <label>Rate your experience</label>
+                <div class="rating" id="rating">
+                    <i class="fas fa-star" data-rating="1" onclick="setRating(1)"></i>
+                    <i class="fas fa-star" data-rating="2" onclick="setRating(2)"></i>
+                    <i class="fas fa-star" data-rating="3" onclick="setRating(3)"></i>
+                    <i class="fas fa-star" data-rating="4" onclick="setRating(4)"></i>
+                    <i class="fas fa-star" data-rating="5" onclick="setRating(5)"></i>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="feedback-message">Your Feedback</label>
+                <textarea id="feedback-message" class="feedback-textarea" placeholder="Please share your thoughts, suggestions, or report issues..."></textarea>
+            </div>
+            
+            <div class="feedback-actions">
+                <button class="btn btn-secondary" onclick="closeFeedbackModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="btn btn-primary" onclick="submitFeedback()">
+                    <i class="fas fa-paper-plane"></i> Submit Feedback
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Button -->
+    <div class="feedback-button" onclick="openFeedbackModal()">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <div>
+            <div id="notification-title">Success</div>
+            <div id="notification-message">Action completed successfully</div>
+        </div>
+        <div class="notification-close" onclick="hideNotification()">
+            <i class="fas fa-times"></i>
+        </div>
+    </div>
+
+    <script>
+        // Disease database
+        const diseaseDatabase = {
+            'Common Cold': {
+                symptoms: ['Fever', 'Cough', 'Headache', 'Sore Throat', 'Sneezing'],
+                medicines: ['Paracetamol', 'Dextromethorphan', 'Lozenges'],
+                diet: ['Warm water', 'Honey and lemon', 'Soup', 'Ginger tea'],
+                workouts: ['Yoga', 'Light walking', 'Deep breathing'],
+                precautions: ['Wear warm clothes', 'Avoid cold things', 'Get plenty of rest']
+            },
+            'Dengue': {
+                symptoms: ['Fever', 'Headache', 'Joint Pain', 'Fatigue'],
+                medicines: ['Paracetamol', 'Oral Rehydration Solution'],
+                diet: ['Papaya juice', 'Coconut water', 'Fruit juice', 'Plenty of water'],
+                workouts: ['Rest', 'Light stretching'],
+                precautions: ['Avoid mosquitoes', 'Wear full sleeves', 'Use mosquito nets']
+            },
+            'Typhoid': {
+                symptoms: ['Fever', 'Stomach Pain', 'Nausea', 'Loss of Appetite', 'Fatigue'],
+                medicines: ['Azithromycin', 'Ciprofloxacin', 'Paracetamol'],
+                diet: ['Porridge', 'Khichdi', 'Fruit juice', 'Boiled food'],
+                workouts: ['Complete rest'],
+                precautions: ['Drink clean water', 'Avoid outside food', 'Wash hands']
+            },
+            'Asthma': {
+                symptoms: ['Shortness of Breath', 'Cough', 'Wheezing'],
+                medicines: ['Salbutamol inhaler', 'Prednisolone', 'Montelukast'],
+                diet: ['Warm water', 'Turmeric milk', 'Ginger', 'Tulsi'],
+                workouts: ['Pranayama', 'Yoga', 'Slow walking'],
+                precautions: ['Avoid dust and smoke', 'Avoid cold air', 'Always carry inhaler']
+            },
+            'Food Poisoning': {
+                symptoms: ['Stomach Pain', 'Nausea', 'Diarrhea'],
+                medicines: ['Omeprazole', 'ORS', 'Ranitidine'],
+                diet: ['Porridge', 'Khichdi', 'Banana', 'Yogurt'],
+                workouts: ['Rest', 'Light walk'],
+                precautions: ['Avoid outside food', 'Drink clean water', 'Avoid heavy meals']
+            }
+        };
+
+        let selectedSymptoms = [];
+        let severityData = {};
+        let currentTipIndex = 0;
+        let currentTheme = 'light';
+        let currentPhoto = null;
+        let selectedFeedbackType = 'general';
+        let selectedRating = 0;
+
+        // Initialize theme from localStorage or default to light
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                updateThemeUI(true);
+            }
+            
+            // Load saved profile photo
+            const savedPhoto = localStorage.getItem('profilePhoto');
+            if (savedPhoto) {
+                displayProfilePhoto(savedPhoto);
+            }
+        });
+
+        // Initialize sliders
+        document.querySelectorAll('.risk-slider').forEach(slider => {
+            slider.addEventListener('input', function() {
+                document.getElementById(this.id.replace('-risk', '-value')).textContent = this.value;
+            });
+        });
+
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                updateThemeUI(false);
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeUI(true);
+            }
+        }
+
+        function updateThemeUI(isDark) {
+            const themeIcon = document.getElementById('theme-icon');
+            const themeText = document.getElementById('theme-text');
+            
+            if (isDark) {
+                themeIcon.className = 'fas fa-sun';
+                themeText.textContent = 'Light Mode';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                themeText.textContent = 'Dark Mode';
+            }
+        }
+
+        function toggleSymptom(element, symptom) {
+            element.classList.toggle('selected');
+            
+            if (element.classList.contains('selected')) {
+                selectedSymptoms.push(symptom);
+            } else {
+                const index = selectedSymptoms.indexOf(symptom);
+                if (index > -1) {
+                    selectedSymptoms.splice(index, 1);
+                }
+            }
+        }
+
+        function predictDisease() {
+            if (selectedSymptoms.length < 2) {
+                showNotification('Error', 'Please select at least 2 symptoms');
+                return;
+            }
+
+            // Show loading
+            document.querySelector('.loading').classList.add('show');
+            document.getElementById('result').classList.remove('show');
+
+            // Simulate prediction process
+            setTimeout(() => {
+                document.querySelector('.loading').classList.remove('show');
+                
+                // Find matching disease
+                let bestMatch = null;
+                let maxMatch = 0;
+                
+                for (const disease in diseaseDatabase) {
+                    const matchCount = diseaseDatabase[disease].symptoms.filter(s => 
+                        selectedSymptoms.includes(s)
+                    ).length;
+                    
+                    if (matchCount > maxMatch) {
+                        maxMatch = matchCount;
+                        bestMatch = disease;
+                    }
+                }
+                
+                if (bestMatch) {
+                    displayResult(bestMatch);
+                    saveToHistory(bestMatch);
+                } else {
+                    // Default to cold if no match found
+                    displayResult('Common Cold');
+                    saveToHistory('Common Cold');
+                }
+            }, 2000);
+        }
+
+        function displayResult(disease) {
+            const resultCard = document.getElementById('result');
+            const diseaseData = diseaseDatabase[disease];
+            
+            // Set disease name
+            document.getElementById('disease-name').textContent = disease;
+            
+            // Calculate confidence based on symptom match
+            const matchCount = diseaseData.symptoms.filter(s => 
+                selectedSymptoms.includes(s)
+            ).length;
+            const confidence = Math.min(95, Math.round((matchCount / selectedSymptoms.length) * 100));
+            
+            // Set confidence meter
+            document.getElementById('confidence-fill').style.width = confidence + '%';
+            document.getElementById('confidence-value').textContent = confidence + '%';
+            
+            // Display medicines
+            const medicineList = document.getElementById('medicine-list');
+            medicineList.innerHTML = '';
+            diseaseData.medicines.forEach(medicine => {
+                const item = document.createElement('div');
+                item.className = 'medicine-item';
+                item.innerHTML = `
+                    <i class="fas fa-pills"></i>
+                    <div>${medicine}</div>
+                `;
+                medicineList.appendChild(item);
+            });
+            
+            // Display diet
+            const dietList = document.getElementById('diet-list');
+            dietList.innerHTML = '';
+            diseaseData.diet.forEach(diet => {
+                const item = document.createElement('div');
+                item.className = 'diet-item';
+                item.innerHTML = `
+                    <i class="fas fa-apple-alt"></i>
+                    <div>${diet}</div>
+                `;
+                dietList.appendChild(item);
+            });
+            
+            // Display workouts
+            const workoutGrid = document.getElementById('workout-grid');
+            workoutGrid.innerHTML = '';
+            diseaseData.workouts.forEach(workout => {
+                const card = document.createElement('div');
+                card.className = 'workout-card';
+                card.innerHTML = `
+                    <div class="workout-img">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <div class="workout-content">
+                        <h4>${workout}</h4>
+                        <p>Regular exercise of this type will help you feel better</p>
+                    </div>
+                `;
+                workoutGrid.appendChild(card);
+            });
+            
+            // Display precautions
+            const precautionList = document.getElementById('precaution-list');
+            precautionList.innerHTML = '';
+            diseaseData.precautions.forEach(precaution => {
+                const item = document.createElement('div');
+                item.className = 'precaution-item';
+                item.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>${precaution}</div>
+                `;
+                precautionList.appendChild(item);
+            });
+            
+            // Show result
+            resultCard.classList.add('show');
+            
+            // Scroll to result
+            resultCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            
+            if (!height || !weight) {
+                showNotification('Error', 'Please enter both height and weight');
+                return;
+            }
+            
+            const bmi = (weight / Math.pow(height / 100, 2)).toFixed(1);
+            const bmiResult = document.getElementById('bmi-result');
+            
+            document.getElementById('bmi-value').textContent = bmi;
+            
+            let category, description, position;
+            
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                description = 'You are underweight. Consider a balanced diet with increased calorie intake.';
+                position = (bmi / 18.5) * 20; // Position in first 20% of the bar
+            } else if (bmi < 25) {
+                category = 'Normal Weight';
+                description = 'Congratulations! You are in the healthy weight range. Maintain your current lifestyle.';
+                position = 20 + ((bmi - 18.5) / 6.5) * 20; // Position in 20-40% of the bar
+            } else if (bmi < 30) {
+                category = 'Overweight';
+                description = 'You are overweight. Consider a balanced diet and regular exercise.';
+                position = 40 + ((bmi - 25) / 5) * 20; // Position in 40-60% of the bar
+            } else {
+                category = 'Obese';
+                description = 'You are in the obese range. Consult a healthcare professional for guidance.';
+                position = 60 + Math.min((bmi - 30) / 10, 1) * 40; // Position in 60-100% of the bar
+            }
+            
+            document.getElementById('bmi-category').textContent = category;
+            document.getElementById('bmi-description').textContent = description;
+            document.getElementById('bmi-pointer').style.left = position + '%';
+            
+            bmiResult.classList.add('show');
+            showNotification('BMI Calculated', `Your BMI is ${bmi} (${category})`);
+        }
+
+        function calculateRisk() {
+            const smoking = parseInt(document.getElementById('smoking-risk').value);
+            const alcohol = parseInt(document.getElementById('alcohol-risk').value);
+            const activity = parseInt(document.getElementById('activity-risk').value);
+            const diet = parseInt(document.getElementById('diet-risk').value);
+            const sleep = parseInt(document.getElementById('sleep-risk').value);
+            const stress = parseInt(document.getElementById('stress-risk').value);
+            
+            // Calculate overall risk (inverted for activity, diet, and sleep)
+            const overallRisk = Math.round((smoking + alcohol + (10 - activity) + (10 - diet) + (10 - sleep) + stress) / 6);
+            
+            let riskLevel, riskColor, recommendations;
+            
+            if (overallRisk <= 3) {
+                riskLevel = 'Low Risk';
+                riskColor = '#2ecc71';
+                recommendations = [
+                    'Continue your healthy lifestyle',
+                    'Regular health check-ups once a year',
+                    'Maintain balanced diet and exercise'
+                ];
+            } else if (overallRisk <= 6) {
+                riskLevel = 'Moderate Risk';
+                riskColor = '#f39c12';
+                recommendations = [
+                    'Increase physical activity',
+                    'Improve diet quality',
+                    'Reduce stress levels',
+                    'Consider health check-ups every 6 months'
+                ];
+            } else {
+                riskLevel = 'High Risk';
+                riskColor = '#e74c3c';
+                recommendations = [
+                    'Consult a healthcare provider immediately',
+                    'Make significant lifestyle changes',
+                    'Regular monitoring of health parameters',
+                    'Consider professional guidance for diet and exercise'
+                ];
+            }
+            
+            const riskResult = document.getElementById('risk-result');
+            document.getElementById('risk-level').textContent = riskLevel;
+            document.getElementById('risk-level').style.color = riskColor;
+            
+            // Create risk breakdown
+            const breakdown = document.getElementById('risk-breakdown');
+            breakdown.innerHTML = `
+                <div class="medicine-item">
+                    <i class="fas fa-smoking"></i>
+                    <div>Smoking Risk: ${smoking}/10</div>
+                </div>
+                <div class="medicine-item">
+                    <i class="fas fa-wine-glass"></i>
+                    <div>Alcohol Risk: ${alcohol}/10</div>
+                </div>
+                <div class="medicine-item">
+                    <i class="fas fa-running"></i>
+                    <div>Physical Activity: ${activity}/10</div>
+                </div>
+                <div class="medicine-item">
+                    <i class="fas fa-hamburger"></i>
+                    <div>Diet Quality: ${diet}/10</div>
+                </div>
+                <div class="medicine-item">
+                    <i class="fas fa-bed"></i>
+                    <div>Sleep Quality: ${sleep}/10</div>
+                </div>
+                <div class="medicine-item">
+                    <i class="fas fa-brain"></i>
+                    <div>Stress Level: ${stress}/10</div>
+                </div>
+            `;
+            
+            // Create recommendations
+            const recElement = document.getElementById('risk-recommendations');
+            recElement.innerHTML = '';
+            recommendations.forEach(rec => {
+                const item = document.createElement('div');
+                item.className = 'medicine-item';
+                item.innerHTML = `<i class="fas fa-check"></i><div>${rec}</div>`;
+                recElement.appendChild(item);
+            });
+            
+            riskResult.classList.add('show');
+            showNotification('Risk Assessment Complete', `Your health risk level is: ${riskLevel}`);
+        }
+
+        function setSeverity(symptom, level) {
+            // Remove previous selection
+            const symptomItem = event.target.closest('.severity-item');
+            symptomItem.querySelectorAll('.severity-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add new selection
+            event.target.classList.add('selected');
+            
+            // Store severity data
+            severityData[symptom] = level;
+        }
+
+        function saveSeverity() {
+            if (Object.keys(severityData).length === 0) {
+                showNotification('Error', 'Please select severity levels for at least one symptom');
+                return;
+            }
+            
+            // Create a simple chart
+            const canvas = document.getElementById('severity-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw chart
+            const symptoms = Object.keys(severityData);
+            const barWidth = canvas.width / symptoms.length;
+            
+            symptoms.forEach((symptom, index) => {
+                const severity = severityData[symptom];
+                let height;
+                let color;
+                
+                if (severity === 'low') {
+                    height = 50;
+                    color = '#2ecc71';
+                } else if (severity === 'medium') {
+                    height = 100;
+                    color = '#f39c12';
+                } else {
+                    height = 150;
+                    color = '#e74c3c';
+                }
+                
+                ctx.fillStyle = color;
+                ctx.fillRect(
+                    index * barWidth + 20,
+                    canvas.height - height - 20,
+                    barWidth - 40,
+                    height
+                );
+                
+                // Add symptom label
+                ctx.fillStyle = '#333';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(
+                    symptom,
+                    index * barWidth + barWidth / 2,
+                    canvas.height - 5
+                );
+            });
+            
+            document.getElementById('severity-chart').classList.add('show');
+            showNotification('Success', 'Severity data saved successfully');
+        }
+
+        function selectTimeSlot(element) {
+            // Remove previous selection
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            
+            // Add new selection
+            element.classList.add('selected');
+        }
+
+        function bookAppointment() {
+            const doctor = document.getElementById('doctor-name').value;
+            const date = document.getElementById('appointment-date').value;
+            const timeElement = document.querySelector('.time-slot.selected');
+            
+            if (!date) {
+                showNotification('Error', 'Please select a date for your appointment');
+                return;
+            }
+            
+            if (!timeElement) {
+                showNotification('Error', 'Please select a time slot');
+                return;
+            }
+            
+            const time = timeElement.textContent;
+            
+            // Update confirmation
+            document.getElementById('confirmed-doctor').textContent = doctor;
+            document.getElementById('confirmed-date').textContent = new Date(date).toLocaleDateString();
+            document.getElementById('confirmed-time').textContent = time;
+            
+            // Show confirmation
+            document.getElementById('appointment-confirmation').classList.add('show');
+            
+            showNotification('Success', 'Appointment booked successfully');
+        }
+
+        function addToCalendar() {
+            showNotification('Calendar', 'Appointment added to your calendar');
+        }
+
+        function addReminder() {
+            const medicine = document.getElementById('new-medicine').value;
+            const time = document.getElementById('new-time').value;
+            
+            if (!medicine || !time) {
+                showNotification('Error', 'Please enter both medicine name and time');
+                return;
+            }
+            
+            // Create new reminder element
+            const reminderList = document.querySelector('.reminder-list');
+            const newReminder = document.createElement('div');
+            newReminder.className = 'reminder-item';
+            newReminder.innerHTML = `
+                <i class="fas fa-pills"></i>
+                <div class="reminder-details">
+                    <div>${medicine}</div>
+                    <div class="reminder-time">${time}</div>
+                </div>
+                <button class="btn btn-success" onclick="editReminder(this)">
+                    <i class="fas fa-edit"></i>
+                </button>
+            `;
+            
+            reminderList.appendChild(newReminder);
+            
+            // Clear inputs
+            document.getElementById('new-medicine').value = '';
+            document.getElementById('new-time').value = '';
+            
+            showNotification('Success', 'Reminder added successfully');
+        }
+
+        function editReminder(button) {
+            const reminderItem = button.closest('.reminder-item');
+            const details = reminderItem.querySelector('.reminder-details');
+            const medicine = details.querySelector('div').textContent;
+            const time = details.querySelector('.reminder-time').textContent;
+            
+            // For demo purposes, just show a notification
+            showNotification('Edit Reminder', `Editing reminder for ${medicine} at ${time}`);
+        }
+
+        function previousTip() {
+            const tips = document.querySelectorAll('.tip-item');
+            tips[currentTipIndex].classList.remove('active');
+            
+            currentTipIndex = (currentTipIndex - 1 + tips.length) % tips.length;
+            tips[currentTipIndex].classList.add('active');
+        }
+
+        function nextTip() {
+            const tips = document.querySelectorAll('.tip-item');
+            tips[currentTipIndex].classList.remove('active');
+            
+            currentTipIndex = (currentTipIndex + 1) % tips.length;
+            tips[currentTipIndex].classList.add('active');
+        }
+
+        function saveProfile() {
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const email = document.getElementById('email').value;
+            
+            // Update header user info
+            document.getElementById('user-name').textContent = `${firstName} ${lastName}`;
+            document.getElementById('user-email').textContent = email;
+            
+            showNotification('Success', 'Profile saved successfully');
+        }
+
+        function saveToHistory(disease) {
+            const history = document.querySelector('.symptom-history');
+            const today = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+            
+            const newHistoryItem = document.createElement('div');
+            newHistoryItem.className = 'history-item';
+            newHistoryItem.innerHTML = `
+                <div class="history-date">${today}</div>
+                <div class="history-symptoms">${selectedSymptoms.join(', ')}</div>
+                <div class="history-result">${disease}</div>
+            `;
+            
+            // Add to the top of the history
+            history.insertBefore(newHistoryItem, history.firstChild);
+            
+            // Limit history to 10 items
+            while (history.children.length > 10) {
+                history.removeChild(history.lastChild);
+            }
+        }
+
+        function showProfileTab() {
+            switchTab('profile');
+        }
+
+        function switchTab(tabName) {
+            // Update tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.closest('.tab').classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function showNotification(title, message) {
+            document.getElementById('notification-title').textContent = title;
+            document.getElementById('notification-message').textContent = message;
+            document.getElementById('notification').classList.add('show');
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                hideNotification();
+            }, 3000);
+        }
+
+        function hideNotification() {
+            document.getElementById('notification').classList.remove('show');
+        }
+
+        // Profile Photo Functions
+        function openPhotoModal() {
+            document.getElementById('photo-modal').classList.add('show');
+        }
+
+        function closePhotoModal() {
+            document.getElementById('photo-modal').classList.remove('show');
+            document.getElementById('photo-preview').style.display = 'none';
+            document.getElementById('save-photo-btn').disabled = true;
+        }
+
+        function previewPhoto(event) {
+            const file = event.target.files[0];
+            
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    document.getElementById('photo-preview').src = e.target.result;
+                    document.getElementById('photo-preview').style.display = 'block';
+                    document.getElementById('save-photo-btn').disabled = false;
+                    currentPhoto = e.target.result;
+                };
+                
+                reader.readAsDataURL(file);
+            } else {
+                showNotification('Error', 'Please select a valid image file');
+            }
+        }
+
+        function takePhoto() {
+            // In a real application, this would access the device camera
+            // For demo purposes, we'll use a placeholder
+            const randomAvatar = `https://picsum.photos/seed/${Date.now()}/300/300.jpg`;
+            document.getElementById('photo-preview').src = randomAvatar;
+            document.getElementById('photo-preview').style.display = 'block';
+            document.getElementById('save-photo-btn').disabled = false;
+            currentPhoto = randomAvatar;
+        }
+
+        function useDefaultAvatar() {
+            // Use a default avatar
+            const defaultAvatar = 'https://picsum.photos/seed/default-avatar/300/300.jpg';
+            document.getElementById('photo-preview').src = defaultAvatar;
+            document.getElementById('photo-preview').style.display = 'block';
+            document.getElementById('save-photo-btn').disabled = false;
+            currentPhoto = defaultAvatar;
+        }
+
+        function savePhoto() {
+            if (!currentPhoto) return;
+            
+            // Save photo to localStorage
+            localStorage.setItem('profilePhoto', currentPhoto);
+            
+            // Update profile photo display
+            displayProfilePhoto(currentPhoto);
+            
+            // Close modal
+            closePhotoModal();
+            
+            showNotification('Success', 'Profile photo updated successfully');
+        }
+
+        function displayProfilePhoto(photoSrc) {
+            const profileImg = document.getElementById('profile-photo-img');
+            const profilePlaceholder = document.getElementById('profile-photo-placeholder');
+            const headerAvatar = document.getElementById('header-avatar');
+            
+            profileImg.src = photoSrc;
+            profileImg.style.display = 'block';
+            profilePlaceholder.style.display = 'none';
+            
+            // Also update header avatar
+            headerAvatar.innerHTML = `<img src="${photoSrc}" alt="Profile">`;
+        }
+
+        function removePhoto() {
+            // Remove photo from localStorage
+            localStorage.removeItem('profilePhoto');
+            
+            // Update UI
+            const profileImg = document.getElementById('profile-photo-img');
+            const profilePlaceholder = document.getElementById('profile-photo-placeholder');
+            const headerAvatar = document.getElementById('header-avatar');
+            
+            profileImg.style.display = 'none';
+            profilePlaceholder.style.display = 'block';
+            headerAvatar.innerHTML = '<i class="fas fa-user"></i>';
+            
+            showNotification('Success', 'Profile photo removed');
+        }
+
+        // Feedback Functions
+        function openFeedbackModal() {
+            document.getElementById('feedback-modal').classList.add('show');
+        }
+
+        function closeFeedbackModal() {
+            document.getElementById('feedback-modal').classList.remove('show');
+            // Reset form
+            document.getElementById('feedback-message').value = '';
+            selectedRating = 0;
+            updateRatingDisplay();
+        }
+
+        function selectFeedbackType(element) {
+            // Remove previous selection
+            document.querySelectorAll('.feedback-type-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add new selection
+            element.classList.add('selected');
+            selectedFeedbackType = element.getAttribute('data-type');
+        }
+
+        function setRating(rating) {
+            selectedRating = rating;
+            updateRatingDisplay();
+        }
+
+        function updateRatingDisplay() {
+            const stars = document.querySelectorAll('#rating i');
+            stars.forEach((star, index) => {
+                if (index < selectedRating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function submitFeedback() {
+            const message = document.getElementById('feedback-message').value.trim();
+            
+            if (!message) {
+                showNotification('Error', 'Please enter your feedback');
+                return;
+            }
+            
+            // In a real application, this would send the feedback to a server
+            // For demo purposes, we'll just show a success message
+            console.log({
+                type: selectedFeedbackType,
+                rating: selectedRating,
+                message: message,
+                timestamp: new Date().toISOString()
+            });
+            
+            closeFeedbackModal();
+            showNotification('Success', 'Thank you for your feedback! We appreciate your input.');
+        }
+    </script>
+</body>
+</html>
